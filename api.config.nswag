@@ -1,0 +1,71 @@
+﻿{
+  "runtime": "NetCore20",
+  "swaggerGenerator": {
+    "webApiToSwagger": {
+      "assemblyPaths": [
+        "C:\\Users\\SideKick\\Documents\\Visual Studio 2017\\Projects\\tests\\PrintMyLife\\PrintMyLife.Web\\bin\\Debug\\netcoreapp2.0\\PrintMyLife.Web.dll"
+      ],
+      "controllerNames": [
+        "PrintMyLife.Controllers.Samples.SamplesController",
+        "PrintMyLife.Web.Controllers.Authorization.AccountController",
+        "PrintMyLife.Web.Controllers.Authorization.AuthenticationController"
+      ],
+      "isAspNetCore": true,
+      "defaultUrlTemplate": "api/v1/{controller}/{id?}",
+      "defaultPropertyNameHandling": "CamelCase",
+      "defaultReferenceTypeNullHandling": "Null",
+      "defaultEnumHandling": "Integer",
+      "flattenInheritanceHierarchy": false,
+      "generateKnownTypes": true,
+      "generateXmlObjects": false,
+      "generateAbstractProperties": false,
+      "addMissingPathParameters": false,
+      "ignoreObsoleteProperties": false,
+      "infoTitle": "Web API Swagger specification",
+      "infoVersion": "1.0.0",
+      "referencePaths": [
+        "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\2.0.0",
+        "C:\\Users\\SideKick\\Documents\\Visual Studio 2017\\Projects\\tests\\PrintMyLife\\PrintMyLife.Web\\bin\\Release\\PublishOutput",
+        "C:\\Users\\SideKick\\.nuget\\packages"
+      ],
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "swaggerToTypeScriptClient": {
+      "className": "{controller}Service",
+      "moduleName": "",
+      "namespace": "",
+      "typeScriptVersion": 2.0,
+      "template": "Angular",
+      "promiseType": "Promise",
+      "dateTimeType": "Date",
+      "nullValue": "Undefined",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "generateOptionalParameters": false,
+      "wrapDtoExceptions": false,
+      "clientBaseClass": "ServiceBase",
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "responseClass": "SwaggerResponse",
+      "useTransformOptionsMethod": true,
+      "useTransformResultMethod": true,
+      "generateDtoTypes": true,
+      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "markOptionalProperties": true,
+      "generateCloneMethod": false,
+      "typeStyle": "Interface",
+      "extensionCode": "C:\\Users\\SideKick\\Documents\\Visual Studio 2017\\Projects\\tests\\PrintMyLife\\PrintMyLife.Web\\ClientApp\\app\\services\\api.services.extension.ts",
+      "generateDefaultValues": true,
+      "excludedTypeNames": [],
+      "handleReferences": false,
+      "generateConstructorInterface": true,
+      "importRequiredTypes": true,
+      "useGetBaseUrlMethod": false,
+      "baseUrlTokenName": "API_BASE_URL",
+      "serviceHost": "",
+      "output": "C:\\Users\\SideKick\\Documents\\Visual Studio 2017\\Projects\\tests\\PrintMyLife\\PrintMyLife.Web\\ClientApp\\app\\services\\api.services.ts"
+    }
+  }
+}

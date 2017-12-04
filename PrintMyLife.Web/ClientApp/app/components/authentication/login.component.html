@@ -1,0 +1,38 @@
+
+<form #loginForm="ngForm" (ngSubmit)="submit()">
+  <mat-card tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>Please fill the form to login.</mat-card-subtitle>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div layout="row" id="email">
+        <mat-form-field flex>
+          <input matInput
+                 type="text"
+                 placeholder="Email"
+                 [(ngModel)]="credentials.email"
+                 name="email"
+                 maxlength="150"
+                 required />
+        </mat-form-field>
+      </div>
+      <div layout="row" id="password">
+        <mat-form-field flex>
+          <input matInput
+                 type="password"
+                 placeholder="Password"
+                 [(ngModel)]="credentials.password"
+                 name="password"
+                 maxlength="150"
+                 required />
+        </mat-form-field>
+      </div>
+      <td-message label="Error!" [sublabel]="error.message" color="warn" icon="error" *ngIf="error"></td-message>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+      <button type="submit" mat-button [disabled]="!(loginForm.valid)" color="primary">LOGIN</button>
+      <button type="button" mat-button (click)="cancel()">CANCEL</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

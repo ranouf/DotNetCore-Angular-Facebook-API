@@ -1,0 +1,19 @@
+<td-layout>
+  <td-navigation-drawer flex sidenavTitle="PrintMyLife">
+    <mat-nav-list>
+      <a [routerLink]="['/']"  mat-list-item><mat-icon>home</mat-icon>Dashboard</a>
+    </mat-nav-list>
+  </td-navigation-drawer>
+  <td-layout-nav  color="accent">
+    <div td-toolbar-content layout="row" layout-align="start center" flex>
+      <button mat-icon-button td-menu-button tdLayoutToggle>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span [routerLink]="['/']" class="cursor-pointer">PrintMyLife</span>
+      <span flex></span>
+      <a mat-icon-button matTooltip="Login" [routerLink]="['/authentication/login']"><mat-icon>person</mat-icon></a>
+    </div>
+    <router-outlet></router-outlet>
+  </td-layout-nav>
+</td-layout>
+
