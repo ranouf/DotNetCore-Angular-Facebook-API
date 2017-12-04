@@ -87,9 +87,10 @@ public class Startup
 
     //App settings
     services.Configure<AuthenticationSettings>(Configuration.GetSection("Authentication"));
+    services.Configure<FacebookSettings>(Configuration.GetSection("Facebook"));
 
     //Authentication
-    AddJwtBearerAuthentication(services);
+    AddAuthentication(services);
 
     //HttpContext
     services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -145,14 +146,14 @@ public class Startup
       routes.MapRoute(
           name: "default",
           template: "api/{controller}/{id?}");
-        // add a special route for our index page
-        routes.MapSpaFallbackRoute(
-              name: "spa-fallback",
-              defaults: new { controller = "Home", action = "index" });
+      // add a special route for our index page
+      routes.MapSpaFallbackRoute(
+            name: "spa-fallback",
+            defaults: new { controller = "Home", action = "index" });
     });
   }
 
-  public void AddJwtBearerAuthentication (IServiceCollection services)
+  public void AddAuthentication(IServiceCollection services)
   {
     var tokenValidationParameters = new TokenValidationParameters
     {

@@ -17,12 +17,13 @@ namespace PrintMyLife.Core.Authentication.Entities
 
     internal User() { }
 
-    public User(string email, string firstname, string lastname)
+    public User(string username, string email, string firstname, string lastname)
     {
-      UserName = email;
+      UserName = username;
       Email = email;
       Firstname = firstname;
       Lastname = lastname;
+      SecurityStamp = Guid.NewGuid().ToString();
     }
   }
 }

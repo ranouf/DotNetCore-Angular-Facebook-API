@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
 using System.Threading.Tasks;
 using PrintMyLife.Core.Authentication.Entities;
 using PrintMyLife.Web.Controllers.Authentication.Dto;
-using Microsoft.Extensions.Identity.Core;
 using PrintMyLife.Web.Common.Exceptions;
 using System.Linq;
 
@@ -22,9 +20,9 @@ namespace PrintMyLife.Web.Controllers.Authorization
       _userManager = userManager;
     }
 
-    // POST api/values
+    
     [HttpPost]
-    [ProducesResponseType(typeof(object), 200)]
+    [ProducesResponseType(200)]
     public async Task<IActionResult> Register([FromBody]RegistrationDto dto)
     {
       if (!ModelState.IsValid)
@@ -33,6 +31,7 @@ namespace PrintMyLife.Web.Controllers.Authorization
       }
 
       var userToRegister = new User(
+        dto.Email,
         dto.Email,
         dto.Firstname,
         dto.Lastname

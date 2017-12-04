@@ -31,7 +31,7 @@ namespace PrintMyLife.Web.Helpers
         Subject = new ClaimsIdentity(new Claim[]
           {
             new Claim(ClaimTypes.Sid, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Name, user.UserName)
           }),
         Expires = token.ExpirationDate,
         SigningCredentials = GenerateSigningCredentials(authSettings.SecretKey)

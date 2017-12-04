@@ -1,14 +1,13 @@
 using Autofac;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Reflection;
-using PrintMyLife.Core.Common.Repositories;
-using PrintMyLife.Core.Common.UnitOWork;
 using PrintMyLife.Core.Sample;
 using PrintMyLife.Infrastructure.EntityFramework;
 using PrintMyLife.Infrastructure.Sample;
 using MyRepository = PrintMyLife.Core.Common.Repositories;
 using MyUnitOWork = PrintMyLife.Core.Common.UnitOWork;
+using PrintMyLife.Infrastructure.Facebook;
+using PrintMyLife.Core.Authentication;
 
 namespace PrintMyLife.Infrastructure
 {
@@ -26,6 +25,7 @@ namespace PrintMyLife.Infrastructure
       builder.RegisterType<AppDbContext>().As<DbContext>().InstancePerLifetimeScope();
 
       builder.RegisterType<SampleService>().As<ISampleService>();
+      builder.RegisterType<FacebookService>().As<IExternalSocialService>();
     }
   }
 }
