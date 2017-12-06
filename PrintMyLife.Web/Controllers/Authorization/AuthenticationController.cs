@@ -14,6 +14,8 @@ using PrintMyLife.Core.Runtime.Session;
 using PrintMyLife.Core.Authentication;
 using PrintMyLife.Web.Common.Exceptions;
 using System.Linq;
+using PrintMyLife.Web.Common.Constants;
+using System.Net;
 
 namespace PrintMyLife.Web.Controllers.Authorization
 {
@@ -64,41 +66,54 @@ namespace PrintMyLife.Web.Controllers.Authorization
 
     [HttpGet]
     [ProducesResponseType(200)]
-    [Route("facebook")]
+    [Route(TokenConstants.FacebookProvider)]
     public async Task<IActionResult> ExternalFacebookLogin([FromQuery]string code)
     {
       var accessToken = await _externalSocialService.ExchangeCodeToAnAccessTokenAsync(code);
-      var appToken = await _externalSocialService.GetAppAccessTokenAsync();
-      var userToken = await _externalSocialService.InspectAccessTokenAsync(accessToken.Token, appToken.ToString());
-      var signInResult = await _signInManager.ExternalLoginSignInAsync("facebook", userToken.UserId, isPersistent: false);
+      var appAccessToken = await _externalSocialService.GetAppAccessTokenAsync();
+      var userToken = await _externalSocialService.InspectAccessTokenAsync(accessToken.Token, appAccessToken.ToString());
+      var signInResult = await _signInManager.ExternalLoginSignInAsync(TokenConstants.FacebookProvider, userToken.UserId, isPersistent: false);
+      IdentityResult identityResult = null;
       if (!signInResult.Succeeded)
       {
-        var userProfile = await _externalSocialService.GetUserProfileAsync(userToken.UserId, appToken);
+        var userProfile = await _externalSocialService.GetUserProfileAsync(userToken.UserId, appAccessToken.Token);
         var newUser = new User(
           userProfile.Id,
           userProfile.Email,
           userProfile.FirstName,
           userProfile.LastName
         );
-        var identityResult = await _userManager.CreateAsync(newUser);
+        identityResult = await _userManager.CreateAsync(newUser);
         if (!identityResult.Succeeded)
         {
           throw new ApiException(identityResult.Errors.First().Description);
         }
-        var userInfo = new UserLoginInfo("facebook", userToken.UserId, userProfile.FullName);
+        var userInfo = new UserLoginInfo(TokenConstants.FacebookProvider, userToken.UserId, userProfile.FullName);
         identityResult = await _userManager.AddLoginAsync(newUser, userInfo);
         if (!identityResult.Succeeded)
         {
           throw new ApiException(identityResult.Errors.First().Description);
         }
         await _signInManager.SignInAsync(newUser, false);
-        signInResult = await _signInManager.ExternalLoginSignInAsync("facebook", userToken.UserId, isPersistent: false);
+        signInResult = await _signInManager.ExternalLoginSignInAsync(TokenConstants.FacebookProvider, userToken.UserId, isPersistent: false);
         if (!signInResult.Succeeded)
         {
-          //TODO Manage Errors
+          if (signInResult.IsNotAllowed)
+          {
+            return Unauthorized();
+          }else if (signInResult.IsLockedOut)
+          {
+            throw new ApiException("Your account is locked.", HttpStatusCode.Unauthorized);
+          }
         }
       }
-      var user = await _userManager.FindByLoginAsync("facebook", userToken.UserId);
+      var user = await _userManager.FindByLoginAsync(TokenConstants.FacebookProvider, userToken.UserId);
+
+      identityResult = await _userManager.SetAuthenticationTokenAsync(user, TokenConstants.FacebookProvider, "facebook_token", accessToken.Token);
+      if (!identityResult.Succeeded)
+      {
+        throw new ApiException(identityResult.Errors.First().Description);
+      }
 
       return Ok(Mapper.Map<User, UserAuthenticationDto>(
         user,
@@ -112,6 +127,7 @@ namespace PrintMyLife.Web.Controllers.Authorization
     [ProducesResponseType(typeof(object), 200)]
     public IActionResult Test()
     {
+      var user = this.CurrentUser;
       return Ok();
     }
 

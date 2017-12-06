@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace PrintMyLife.Web.Common.Exceptions
@@ -10,14 +11,17 @@ namespace PrintMyLife.Web.Common.Exceptions
     public int StatusCode { get; set; }
 
     public ApiException(string message,
-                        int statusCode = 500) :
+                        HttpStatusCode statusCode = HttpStatusCode.InternalServerError) :
             base(message)
     {
-      StatusCode = statusCode;
+      StatusCode = (int)statusCode;
     }
-    public ApiException(Exception ex, int statusCode = 500) : base(ex.Message)
+
+    public ApiException(Exception ex,
+                        HttpStatusCode statusCode = HttpStatusCode.InternalServerError) :
+            base(ex.Message)
     {
-      StatusCode = statusCode;
+      StatusCode = (int)statusCode;
     }
   }
 }

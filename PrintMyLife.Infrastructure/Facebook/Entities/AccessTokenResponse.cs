@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PrintMyLife.Infrastructure.Facebook.entities
+namespace PrintMyLife.Infrastructure.Facebook.Entities
 {
-  public class AccessTokenReponse
+  public class AccessTokenResponse
   {
     [JsonProperty(PropertyName = "access_token")]
     public string Token { get; set; }

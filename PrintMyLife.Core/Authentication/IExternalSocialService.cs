@@ -1,4 +1,5 @@
 using PrintMyLife.Core.Authentication.Entities;
+using PrintMyLife.Core.Social.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,10 +11,12 @@ namespace PrintMyLife.Core.Authentication
   {
     Task<AccessToken> ExchangeCodeToAnAccessTokenAsync(string token);
 
-    Task<string> GetAppAccessTokenAsync();
+    Task<AccessToken> GetAppAccessTokenAsync();
 
     Task<UserToken> InspectAccessTokenAsync(string token, string appToken);
 
     Task<UserProfile> GetUserProfileAsync(string userId, string appToken);
+
+    Task<IEnumerable<Account>> GetAccountsAsync(string userId, string appToken);
   }
 }

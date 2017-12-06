@@ -8,6 +8,8 @@ using MyRepository = PrintMyLife.Core.Common.Repositories;
 using MyUnitOWork = PrintMyLife.Core.Common.UnitOWork;
 using PrintMyLife.Infrastructure.Facebook;
 using PrintMyLife.Core.Authentication;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace PrintMyLife.Infrastructure
 {
@@ -26,6 +28,12 @@ namespace PrintMyLife.Infrastructure
 
       builder.RegisterType<SampleService>().As<ISampleService>();
       builder.RegisterType<FacebookService>().As<IExternalSocialService>();
+
+      builder.Register(ctx => new MapperConfiguration(cfg =>
+      {
+        cfg.AddProfile(new FacebookProfile());
+      }));
+      builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>();
     }
   }
 }
