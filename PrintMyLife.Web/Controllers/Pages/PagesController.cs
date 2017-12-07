@@ -1,19 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using PrintMyLife.Core.Authentication.Entities;
 using PrintMyLife.Core.Runtime.Session;
 using Microsoft.AspNetCore.Authorization;
-using PrintMyLife.Web.Common.Exceptions;
-using PrintMyLife.Web.Common.Constants;
-using PrintMyLife.Core.Authentication;
 using PrintMyLife.Core.Social;
 using PrintMyLife.Core.Social.Entities;
-using PrintMyLife.Core.Common.UnitOWork;
-using PrintMyLife.Core.Common.Repositories;
+using PrintMyLife.Common.UnitOWork;
+using PrintMyLife.Common.Repositories;
 
 namespace PrintMyLife.Web.Controllers.Pages
 {
@@ -21,23 +15,18 @@ namespace PrintMyLife.Web.Controllers.Pages
   [Authorize]
   public class PagesController : AuthentifiedBaseController
   {
-    private UserManager<User> _userManager;
-    private readonly IExternalSocialService _externalSocialService;
-    private readonly AccountManager _accountManager;
-    private readonly IRepository<Account, string> _accountRespository;
+    private readonly SocialManager _socialManager;
+    private readonly IRepository<Account, string> _accountRepository;
 
     public PagesController(
-      IExternalSocialService externalSocialService,
+      SocialManager socialManager,
       IUnitOfWork unitOfWork,
-      AccountManager accountManager,
       [FromServices] IAppSession session,
       [FromServices] UserManager<User> userManager
     ) : base(session, userManager)
     {
-      _userManager = userManager;
-      _externalSocialService = externalSocialService;
-      _accountManager = accountManager;
-      _accountRespository = unitOfWork.GetRepository<Account, string>();
+      _socialManager = socialManager;
+      _accountRepository = unitOfWork.GetRepository<Account, string>();
     }
 
 
@@ -45,31 +34,37 @@ namespace PrintMyLife.Web.Controllers.Pages
     [ProducesResponseType(200)]
     public async Task<IActionResult> GetPages()
     {
-
-      var token = await _userManager.GetAuthenticationTokenAsync(
-        CurrentUser,
-        TokenConstants.FacebookProvider,
-        TokenConstants.FacebookTokenName
-      );
-
-      var accounts = await _externalSocialService.GetAccountsAsync(CurrentUser.UserName,token);
-      foreach (var account in accounts)
-      {
-        await _accountManager.AddAccountAsync(account, CurrentUser);
-      }
+      await _socialManager.LoadAccountsAsync(CurrentUser);
       //TODO Create Dto + Map Accounts to AccountDtos
       return Ok();
     }
 
-    [HttpGet("{id}")]
+
+    [HttpGet]
     [ProducesResponseType(200)]
-    public async Task<IActionResult> GetPage([FromQuery]string id)
+    [Route("{id}")]
+    public async Task<IActionResult> GetPage([FromRoute]string id)
     {
-      var account = await _accountRespository.FirstOrDefaultAsync(a => a.Id == id);
+      var account = await _accountRepository.FirstOrDefaultAsync(id);
+      if (account == null)
+      {
+        return NotFound();
+      }
 
-      return new ObjectResult(account);
-
+      await _socialManager.LoadAccountAsync(account);
+      //TODO Create Dto + Map Accounts to AccountDtos
+      return Ok();
     }
+
+    //[HttpGet("{id}")]
+    //[ProducesResponseType(200)]
+    //public async Task<IActionResult> GetPage([FromQuery]string id)
+    //{
+    //  var account = await _accountRespository.FirstOrDefaultAsync(a => a.Id == id);
+
+    //  return new ObjectResult(account);
+
+    //}
 
 
 

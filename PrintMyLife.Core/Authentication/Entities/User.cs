@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using PrintMyLife.Core.Common.Entities;
-using PrintMyLife.Core.Sample.Entities;
 using PrintMyLife.Core.Social.Entities;
+using PrintMyLife.Common.Entities;
 
 namespace PrintMyLife.Core.Authentication.Entities
 {
@@ -14,7 +13,6 @@ namespace PrintMyLife.Core.Authentication.Entities
     public string Firstname { get; set; }
     [Required]
     public string Lastname { get; set; }
-    public virtual ICollection<MySample> Samples { get; } = new List<MySample>();
     public virtual ICollection<UserAccount> Accounts { get; } = new List<UserAccount>();
 
     internal User() { }

@@ -1,7 +1,7 @@
-﻿using Autofac;
+using Autofac;
+using PrintMyLife.Core.Common.Dependencies;
 using System;
 using System.Reflection;
-using PrintMyLife.Core.Common.Dependencies;
 
 namespace PrintMyLife.Core
 {

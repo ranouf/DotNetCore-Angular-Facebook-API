@@ -1,6 +1,4 @@
-using PrintMyLife.Core.Authentication.Entities;
-using PrintMyLife.Core.Common.Entities;
-using System.Collections;
+using PrintMyLife.Common.Entities;
 using System.Collections.Generic;
 
 namespace PrintMyLife.Core.Social.Entities

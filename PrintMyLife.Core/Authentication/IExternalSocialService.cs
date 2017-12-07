@@ -13,10 +13,12 @@ namespace PrintMyLife.Core.Authentication
 
     Task<AccessToken> GetAppAccessTokenAsync();
 
-    Task<UserToken> InspectAccessTokenAsync(string token, string appToken);
+    Task<UserToken> GetUserTokenAsync(string token, string appToken);
 
     Task<UserProfile> GetUserProfileAsync(string userId, string appToken);
 
     Task<IEnumerable<Account>> GetAccountsAsync(string userId, string appToken);
+
+    Task<object> GetAccountAsync(string accountId, string accountToken);
   }
 }

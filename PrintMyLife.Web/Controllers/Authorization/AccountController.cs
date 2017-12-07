@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using PrintMyLife.Core.Authentication.Entities;
 using PrintMyLife.Web.Controllers.Authentication.Dto;
-using PrintMyLife.Web.Common.Exceptions;
 using System.Linq;
+using PrintMyLife.Common.Exceptions;
 
 namespace PrintMyLife.Web.Controllers.Authorization
 {

@@ -1,16 +1,15 @@
 using PrintMyLife.Core.Authentication.Entities;
-using PrintMyLife.Core.Common.Entities;
+using PrintMyLife.Common.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PrintMyLife.Core.Social.Entities
 {
-    public class UserAccount : Entity
+  public class UserAccount : Entity
   {
-    public virtual Guid UserId { get; }
-    public virtual string AccountId { get; }
-    public virtual Account Account { get; }
+    public Guid UserId { get; internal set; }
+    public virtual User User { get; internal set; }
+    public string AccountId { get; internal set; }
+    public virtual Account Account { get; internal set; }
 
     public UserAccount(User user, Account account)
     {

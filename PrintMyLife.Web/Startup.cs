@@ -13,13 +13,11 @@ using PrintMyLife.Core;
 using PrintMyLife.Infrastructure;
 using PrintMyLife.Infrastructure.EntityFramework;
 using AutoMapper;
-using PrintMyLife.Web.Controllers.Samples;
 using PrintMyLife.Core.Authentication.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
 using PrintMyLife.Web.Controllers.Users;
-using PrintMyLife.Core.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
@@ -27,6 +25,7 @@ using PrintMyLife.Web.Runtime;
 using PrintMyLife.Core.Runtime.Session;
 using Microsoft.AspNetCore.Http;
 using PrintMyLife.Web.Common.Filters;
+using PrintMyLife.Common.Configuration;
 
 public class Startup
 {
@@ -98,7 +97,6 @@ public class Startup
     //Automapper
     services.AddAutoMapper(cfg =>
     {
-      cfg.AddProfile(new SamplesProfile());
       cfg.AddProfile(new UsersProfile());
     });
 
